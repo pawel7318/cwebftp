@@ -1,0 +1,26 @@
+<div id="passwd_box">
+
+    <script type="text/javascript" src="js/prototype.js"></script>
+    <script type="text/javascript" src="js/pwgen.js"></script>
+    <script type="text/javascript" src="js/pwgen_run.js"></script>
+    {if $passwd_typo}
+    <div id="typo" class="error_msg">Wprowadzone hasła nie sa identyczne !</div>
+    {/if}
+    <h2 id="passwd_box_title">Nowe hasło dla konta: <b>{$userid}</b></h2>
+    <div id="passwd_generator" >
+        <img src="img/dices.png" onclick="javascript: generate();document.getElementById('typo').style.display='none'">
+        <br>
+        <span id="plain-text" onclick="javascript: document.getElementById('plain-text').style.display='none'"></span>
+   </div>
+    <div id="passwd_form">
+    <form method="POST" action="?action={$weba_or_ftpa}_passwd&userid={$userid}">
+        <input type="hidden" name="userid" value="{$userid}">
+        <label>haslo:</label>
+        <input type="password" name="passwd1" maxlength="32" id="passwd1" onclick="javascript: document.getElementById('typo').style.display='none'">
+        <label>wprowadź ponownie:</label>
+        <input type="password" name="passwd2" maxlength="32" id="passwd2">
+        <br>
+        <input type="submit" name="submit" value="OK">
+    </form>
+    </div>
+</div>

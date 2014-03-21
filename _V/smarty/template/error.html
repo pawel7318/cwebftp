@@ -1,0 +1,11 @@
+{* Smarty *}
+
+{include file="header.html"}
+<div id="mini">
+<h1>Błąd !</h1>
+<h2>Ta operacja zakończyła się niepowodzeniem.</h2>
+{if $error_msg}
+<div class="error_msg">{$error_msg}</div>
+{/if}
+</div>
+{include file="footer.html"}

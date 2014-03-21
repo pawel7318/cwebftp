@@ -1,0 +1,86 @@
+{* Smarty *}
+
+{include file="header.html"}
+{include file="logout_bar.html"}
+<div id="main">
+    <div align="center">
+{if $error_msg}
+<div id="error_msg" class="error_msg">{$error_msg}</div>
+{/if}
+{include file="control_panel.html"}
+{if $passwd_form}
+{include file="passwd_form.html"}
+{/if}
+    </div>
+<div class="sub">
+    <table class="weba" align="center">
+    <tr class="weba_title">
+        <td>konto</td>
+        <td>rola</td>
+        <td>opis</td>
+        <td>ostatnia modyfikacja</td>
+        <td colspan="4"><br></td>
+    </tr>
+    {section name=num loop=$web_account}
+    {strip}
+
+    <tr class="weba_content" bgcolor="{cycle values="#ffffff,#dddddd"}">
+        {if $web_account[num].enabled == "Y"}
+        <td>{$web_account[num].userid}</td>
+        <td>{$web_account[num].role}</td>
+        <td>{$web_account[num].fullname}</td>
+        <td>{$web_account[num].modified}</td>
+        {if $web_account[num].userid != $userid}
+        <td><img src="img/check.png" onclick="window.location.href='?action=weba_disable&userid={$web_account[num].userid}'"></td>
+        {else}
+        <td><img src="img/check.png"></td>
+        {/if}
+        <td><img src="img/key.png" class="weba_mgm_form_img" onclick="window.location.href='?action=weba_passwd_form&userid={$web_account[num].userid}'"></td>
+        <td><img src="img/blank.png"></td>
+        {else}
+        <td>{$web_account[num].userid}</td>
+        <td>
+            <form method="GET" action="" id="weba_change_role_{$web_account[num].userid}">
+                <input type="hidden" name="action" value="weba_change_role">
+                <input type="hidden" name="userid" value="{$web_account[num].userid}">
+                <select name="role" class="weba_mgm_form" onchange="document.getElementById('weba_change_role_{$web_account[num].userid}').submit();">
+                    <option value="admin"{if $web_account[num].role == "admin"} selected{/if}>admin</option>
+                    <option value="superuser"{if $web_account[num].role == "superuser"} selected{/if}>superuser</option>
+                    <option value="user"{if $web_account[num].role == "user"} selected{/if}>user</option>
+                </select>
+            </form>
+        </td>
+        <td>{$web_account[num].fullname}</td>
+        <td>{$web_account[num].modified}</td>
+        <td><img src="img/greendot.png" onclick="window.location.href='?action=weba_enable&userid={$web_account[num].userid}'"></td>
+        <td><img src="img/key.png" class="weba_mgm_form_img" onclick="window.location.href='?action=weba_passwd_form&userid={$web_account[num].userid}'"></td>
+        <td><img src="img/delete.png" onclick="window.location.href='?action=weba_del&userid={$web_account[num].userid}'"></td>
+        {/if}
+
+    {/strip}
+    {/section}
+
+        </tr>
+        <tr>
+        <form method="GET" action="">
+            <td><input type="text" name="userid" class="weba_mgm_form"></td>
+            <td>
+                <select name="role" class="weba_mgm_form">
+                    <option value="admin">admin</option>
+                    <option value="superuser">superuser</option>
+                    <option value="user" selected>user</option>
+                </select>
+            </td>
+            <td><input type="text" name="fullname" class="weba_mgm_form"></td>
+            <td>
+                <input type="image" src="img/add.png" name="action" value="weba_add" class="weba_mgm_form_img">
+            </td>
+            <td colspan="4"><br></td>
+            </form>
+    </tr>
+ 
+</table>
+
+</div>
+</div>
+{include file="footer.html"}

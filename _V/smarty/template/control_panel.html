@@ -1,0 +1,14 @@
+{* Smarty *}
+{if $role == "admin" OR $role == "superuser"}
+    <table>
+    <tr><td></td><td>
+    {if $role == "admin"}
+    <div class="panel_opt" onclick="window.location.href='?action=weba_mgm'"><img class="panel_img" src="img/weba.png" width="40" height="40" alt="" align="middle">konta Web</div>
+    <div class="panel_opt" onclick="window.location.href='?action=web_log'"><img class="panel_img" src="img/weba_log.png" width="40" height="40" alt="" align="middle" align="middle">zdarzenia Web</div>
+    {/if}
+    <div class="panel_opt" onclick="window.location.href='?action=ftpa_mgm'"><img class="panel_img" src="img/ftpa.png" alt="" width="40" height="40" align="middle" align="middle">konta FTP</div>
+    <div class="panel_opt" onclick="window.location.href='?action=ftp_log'"><img class="panel_img" src="img/ftpa_log.png" alt="" width="40" height="40" align="middle" align="middle">zdarzenia FTP</div>
+   </td><td></td></tr>
+   </table>
+<hr>
+{/if}

@@ -1,0 +1,46 @@
+{include file="header.html"}
+{include file="logout_bar.html"}
+<div id="main">
+    <div align="center">
+{if $error_msg}
+<div id="error_msg" class="error_msg">{$error_msg}</div>
+{/if}
+{include file="control_panel.html"}
+    </div>
+<div class="sub">
+    {if $max_page>1}
+     <form method="POST" action="">
+    <input type="hidden" name="current_page" value="{$current_page}">
+    {if $current_page>1}<input type="submit" name="page" value="<">{/if}
+    {$current_page}/{$max_page}
+    {if $current_page<$max_page}<input type="submit" name="page" value=">">{/if}
+    </form>
+    {/if}
+<table class="log" align="center">
+    <tr class="log_title">
+        <td>data</td>
+        <td>administrator</td>
+        <td>operacja</td>
+        <td>konto</td>
+        <td>aktywne</td>
+        <td>rola</td>
+        <td>nazwa</td>
+    <tr>
+    {section name=num loop=$web_log}
+    {strip}
+    <tr bgcolor="{cycle values="#ffffff,#eeeeee"}">
+        <td>{$web_log[num].modified}</td>
+        <td>{$web_log[num].who}</td>
+        <td>{$web_log[num].operation}</td>
+        <td>{$web_log[num].userid}</td>
+        <td>{$web_log[num].enabled}</td>
+        <td>{$web_log[num].role}</td>
+        <td>{$web_log[num].fullname}</td>
+     {/strip}
+     {/section}
+    </tr>
+</table>
+   
+</div>
+</div>
+{include file="footer.html"}

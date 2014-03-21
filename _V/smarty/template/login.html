@@ -1,0 +1,22 @@
+{* Smarty *}
+
+{include file="header.html"}
+
+<div id="mini">
+{if $error_msg}
+<div id="error_msg" class="error_msg">{$error_msg}</div>
+{/if}
+
+<h1>CWebFTP@{$server_name}</h1>
+
+<form method="POST" action="">    
+    <label>login:</label>
+    <input type="text" name="userid" maxlength=16{if $error_msg} onchange="getElementById('error_msg').style.display='none'"{/if}>
+    <label>hasło:</label>
+    <input type="password" name="passwd" maxlength=32>
+    <br>
+    <input type="submit" name="login" value="OK">
+</form>
+</div>
+
+{include file="footer.html"}

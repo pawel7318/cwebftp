@@ -1,0 +1,99 @@
+{* Smarty *}
+
+{include file="header.html"}
+{include file="logout_bar.html"}
+<div id="main">
+    <div align="center">
+{if $error_msg}
+<div id="error_msg" class="error_msg">{$error_msg}</div>
+{/if}
+{include file="control_panel.html"}
+{if $passwd_form}
+{include file="passwd_form.html"}
+{/if}
+    </div>
+<div class="sub">
+    <table class="ftpa" align="center">
+    <tr class="ftpa_title">
+        <td>konto</td>
+        {if $role == "admin" OR $role == "superuser"}
+        <td>właściciel</td>
+        {/if}
+        <td>opis</td>
+        <td>ostatnie logowanie</td>
+        <td>ostatnia modyfikacja</td>
+        <td colspan="4"><br></td>
+    </tr>
+    {section name=num loop=$ftp_account}
+    {strip}
+
+    <tr class="ftpa_content" bgcolor="{if $ftp_account[num].valid_owner == "N"}#ffdddd{else}{cycle values="#ffffff,#dddddd"}{/if}">
+        {if $ftp_account[num].enabled == "Y"}
+        <td>{$ftp_account[num].userid}</td>
+            {if $role == "admin" OR $role == "superuser"}
+        <td>{if $ftp_account[num].valid_owner == "N"}
+            <font color="red">{$ftp_account[num].owner}</font>
+                {else}
+                    {$ftp_account[num].owner}
+                {/if}
+        </td>
+            {/if}
+        <td>{$ftp_account[num].fullname}</td>
+        <td>{$ftp_account[num].accessed}</td>
+        <td>{$ftp_account[num].modified}</td>
+        <td><img src="img/check.png" onclick="window.location.href='?action=ftpa_disable&userid={$ftp_account[num].userid}'"></td>
+        <td><img src="img/key.png" class="ftpa_mgm_form_img" onclick="window.location.href='?action=ftpa_passwd_form&userid={$ftp_account[num].userid}'"></td>
+        <td><img src="img/blank.png"></td>
+        {else}
+        <td>{$ftp_account[num].userid}</td>
+            {if $role == "admin"}
+            <td>
+            <form method="GET" action="" id="ftpa_change_owner_{$ftp_account[num].userid}">
+                <input type="hidden" name="action" value="ftpa_change_owner">
+                <input type="hidden" name="userid" value="{$ftp_account[num].userid}">
+                <select name="owner" class="ftpa_mgm_form" onchange="document.getElementById('ftpa_change_owner_{$ftp_account[num].userid}').submit();">
+                {section name=owner loop=$ftpa_vo}
+                <option value="{$ftpa_vo[owner].userid}"{if $ftpa_vo[owner].userid==$ftp_account[num].owner} selected{/if}>{$ftpa_vo[owner].userid}</option>
+                {/section}
+                </select>
+            </form>
+            </td>
+            {/if}
+            {if $role == "superuser"}
+            <td>
+                {if $ftp_account[num].valid_owner == "N"}
+            <font color="red">{$ftp_account[num].owner}</font>
+                {else}
+                    {$ftp_account[num].owner}
+                {/if}
+            </td>
+            {/if}
+        <td>{$ftp_account[num].fullname}</td>
+        <td>{$ftp_account[num].accessed}</td>
+        <td>{$ftp_account[num].modified}</td>
+        <td><img src="img/greendot.png" onclick="window.location.href='?action=ftpa_enable&userid={$ftp_account[num].userid}'"></td>
+        <td><img src="img/key.png" class="ftpa_mgm_form_img" onclick="window.location.href='?action=ftpa_passwd_form&userid={$ftp_account[num].userid}'"></td>
+        <td><img src="img/delete.png" onclick="window.location.href='?action=ftpa_del&userid={$ftp_account[num].userid}'"></td>
+        {/if}
+
+    {/strip}
+    {/section}
+
+        </tr>
+        <tr>
+        <form method="GET" action="">
+            <td><input type="text" name="userid" class="ftpa_mgm_form"></td>
+            {if $role == "admin" OR $role == "superuser"}
+            <td>{$userid}</td>
+            {/if}
+            <td><input type="text" name="fullname" class="ftpa_mgm_form"></td>
+            <td><input type="image" src="img/add.png" name="action" value="ftpa_add" class="ftpa_mgm_form_img"></td>
+            <td colspan="4"><br></td>
+        </form>
+    </tr>
+ 
+</table>
+
+</div>
+</div>
+{include file="footer.html"}
